@@ -1,57 +1,77 @@
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{
-  margin:0;height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#ff4e88,#ff7a7a);
-  overflow:hidden;
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff4e88, #ff7a7a);
 }
 
 /* Card */
-.card{
-  width:min(560px,92vw);
-  background:#fff;border-radius:24px;
-  padding:34px 24px;text-align:center;
-  box-shadow:0 20px 45px rgba(0,0,0,.22);
-  animation:pop .45s ease-out;
-  position:relative;
-  z-index:2;
-}
-.card-wide{width:min(620px,92vw)}
-@keyframes pop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
-
-.title{margin:0 0 18px;color:#ff4e88;font-size:30px}
-
-/* ✅ Yes فوق No (عمودي) */
-.buttons{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:nowrap;
-  position:relative;
+.card {
+  background: #fff;
+  padding: 35px 25px;
+  border-radius: 25px;
+  text-align: center;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 20px 45px rgba(0,0,0,.25);
 }
 
-.hint{margin:18px 0 0;color:#777;font-size:14px}
-
-.btn{
-  border:0;border-radius:999px;
-  padding:14px 22px;font-size:18px;
-  cursor:pointer;transition:.2s;
-  user-select:none;
+.card.big {
+  max-width: 520px;
 }
-.btn:hover{transform:translateY(-2px)}
-.btn-yes{background:#ff4e88;color:#fff}
-.btn-no{background:#f1f1f1;color:#333}
-.linklike{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 
-/* Gif */
-.gif{
-  width:min(380px,86vw);
-  margin:8px auto 18px;
-  border-radius:18px;overflow:hidden;
-  box-shadow:0 14px 30px rgba(0,0,0,.15);
+h1 {
+  color: #ff4e88;
+  margin-bottom: 25px;
 }
-.gif img{width:100%;display:block}
 
-.msg{margin:0;color:#333;font-size:18px;line-height:1.5}
-.tiny{display:inline-block;margin-top:10px;font-size:14px;color:#777}
+/* 🔥 الزرين جمب بعض */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Buttons */
+button {
+  border: none;
+  border-radius: 50px;
+  padding: 15px 28px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.yes {
+  background: #ff4e88;
+  color: #fff;
+}
+
+.no {
+  background: #eee;
+  color: #333;
+}
+
+.hint {
+  margin-top: 18px;
+  color: #777;
+  font-size: 14px;
+}
+
+/* GIF */
+.gif {
+  width: 260px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+}
