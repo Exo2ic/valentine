@@ -3,33 +3,36 @@
   const noBtn  = document.getElementById("noBtn");
   const hugBtn = document.getElementById("hugBtn");
 
-  // -------- Page 1: Yes grows + No runs far away --------
+  /* =========================
+     PAGE 1: YES vs NO
+  ========================= */
   if (yesBtn && noBtn) {
     let scale = 1;
     let noClicks = 0;
 
-    // نخلي الـ No يقدر يتحرك بحرية (ويهج من الكرت)
+    // نخلي زر No حر الحركة
     noBtn.style.position = "fixed";
-    noBtn.style.left = "50%";
-    noBtn.style.top = "58%";
-    noBtn.style.transform = "translate(-50%, -50%)";
     noBtn.style.zIndex = "9998";
 
-    // نخلي الـ Yes واضح فوق
+    // زر Yes واضح وفوق
     yesBtn.style.position = "relative";
     yesBtn.style.zIndex = "9999";
 
+    // 🔥 خلي No بعيد من أول ما تفتح الصفحة
+    setTimeout(() => moveNoFar(1), 50);
+
+    // عند الضغط على No
     noBtn.addEventListener("click", () => {
       noClicks++;
 
-      // ✅ كبر الـ Yes
+      // كبر زر Yes
       scale += 0.28;
       yesBtn.style.transform = `scale(${scale})`;
 
-      // ✅ هرب الـ No بعيد
+      // هرب زر No
       moveNoFar(noClicks);
 
-      // ✅ سيطرة كاملة
+      // سيطرة كاملة
       if (scale > 14) {
         yesBtn.style.position = "fixed";
         yesBtn.style.top = "0";
@@ -43,13 +46,22 @@
       }
     });
 
+    // 😈 يهرب حتى قبل ما تضغط (كمبيوتر + جوال)
+    noBtn.addEventListener("mouseenter", () => moveNoFar(++noClicks));
+    noBtn.addEventListener(
+      "touchstart",
+      () => moveNoFar(++noClicks),
+      { passive: true }
+    );
+
+    // عند الضغط على Yes
     yesBtn.addEventListener("click", () => {
       window.location.href = "page2.html";
     });
 
-    // يحرك No لمكان عشوائي بعيد عن الوسط
+    // حركة الهروب (بعيد عن منتصف الشاشة)
     function moveNoFar(clicks) {
-      const padding = 18;
+      const padding = 20;
       const w = window.innerWidth;
       const h = window.innerHeight;
 
@@ -57,15 +69,13 @@
       const cy = h * 0.5;
 
       let x, y, tries = 0;
-
-      // كل ما زادت الضغطات، نخليه يهرب أبعد
-      const minDist = Math.min(w, h) * Math.min(0.70, 0.30 + clicks * 0.06);
+      const minDist = Math.min(w, h) * Math.min(0.75, 0.35 + clicks * 0.06);
 
       do {
         x = padding + Math.random() * (w - padding * 2);
         y = padding + Math.random() * (h - padding * 2);
         tries++;
-      } while (distance(x, y, cx, cy) < minDist && tries < 40);
+      } while (distance(x, y, cx, cy) < minDist && tries < 50);
 
       noBtn.style.left = x + "px";
       noBtn.style.top  = y + "px";
@@ -75,14 +85,15 @@
     function distance(x1, y1, x2, y2) {
       const dx = x1 - x2;
       const dy = y1 - y2;
-      return Math.sqrt(dx*dx + dy*dy);
+      return Math.sqrt(dx * dx + dy * dy);
     }
 
-    // لو سويت ريسايز للشاشة، خليه يعيد مكانه بعيد
     window.addEventListener("resize", () => moveNoFar(noClicks));
   }
 
-  // -------- Page 2: Hug spam fills screen for 5 seconds --------
+  /* =========================
+     PAGE 2: HUG SPAM (5s)
+  ========================= */
   if (hugBtn) {
     hugBtn.addEventListener("click", () => spamHearts(5000));
   }
@@ -91,7 +102,6 @@
     const emojis = ["💖","💘","😼","🤍","✨","🌸","🍓","🫂","💗","💞"];
     const start = Date.now();
 
-    // طبقة فوق كل شي
     const layer = document.createElement("div");
     layer.style.position = "fixed";
     layer.style.inset = "0";
@@ -100,26 +110,24 @@
     document.body.appendChild(layer);
 
     const interval = setInterval(() => {
-      // Spam كثيف يترس الشاشة
-      for (let i = 0; i < 70; i++) {
+      for (let i = 0; i < 80; i++) {
         const e = document.createElement("div");
         e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
         e.style.position = "absolute";
         e.style.left = Math.random() * 100 + "vw";
         e.style.top  = Math.random() * 100 + "vh";
-        e.style.fontSize = (18 + Math.random() * 42) + "px";
-        e.style.opacity = (0.55 + Math.random() * 0.45).toFixed(2);
+        e.style.fontSize = (18 + Math.random() * 45) + "px";
+        e.style.opacity = (0.6 + Math.random() * 0.4).toFixed(2);
         e.style.transform = `rotate(${Math.random() * 360}deg)`;
         layer.appendChild(e);
       }
 
       if (Date.now() - start >= durationMs) {
         clearInterval(interval);
-
         layer.style.transition = "opacity .35s ease";
         layer.style.opacity = "0";
         setTimeout(() => layer.remove(), 380);
       }
-    }, 70);
+    }, 65);
   }
 })();
