@@ -4,33 +4,33 @@
   const hugBtn = document.getElementById("hugBtn");
 
   /* =========================
-     PAGE 1: YES vs NO
+     PAGE 1
   ========================= */
   if (yesBtn && noBtn) {
     let scale = 1;
     let noClicks = 0;
 
-    // نخلي زر No حر الحركة
-    noBtn.style.position = "fixed";
-    noBtn.style.zIndex = "9998";
-
-    // زر Yes واضح وفوق
+    // Yes ثابت
     yesBtn.style.position = "relative";
     yesBtn.style.zIndex = "9999";
 
-    // 🔥 خلي No بعيد من أول ما تفتح الصفحة
-    setTimeout(() => moveNoFar(1), 50);
+    // No حر الحركة
+    noBtn.style.position = "fixed";
+    noBtn.style.zIndex = "9998";
 
-    // عند الضغط على No
+    // 🔥 من البداية: حطه عدال (يمين الشاشة)
+    setTimeout(() => moveNoSide(1), 50);
+
+    // عند الضغط
     noBtn.addEventListener("click", () => {
       noClicks++;
 
-      // كبر زر Yes
+      // كبر Yes
       scale += 0.28;
       yesBtn.style.transform = `scale(${scale})`;
 
-      // هرب زر No
-      moveNoFar(noClicks);
+      // هرب No
+      moveNoSide(noClicks);
 
       // سيطرة كاملة
       if (scale > 14) {
@@ -46,53 +46,47 @@
       }
     });
 
-    // 😈 يهرب حتى قبل ما تضغط (كمبيوتر + جوال)
-    noBtn.addEventListener("mouseenter", () => moveNoFar(++noClicks));
+    // 😈 يهرب قبل اللمس
+    noBtn.addEventListener("mouseenter", () => moveNoSide(++noClicks));
     noBtn.addEventListener(
       "touchstart",
-      () => moveNoFar(++noClicks),
+      () => moveNoSide(++noClicks),
       { passive: true }
     );
 
-    // عند الضغط على Yes
     yesBtn.addEventListener("click", () => {
       window.location.href = "page2.html";
     });
 
-    // حركة الهروب (بعيد عن منتصف الشاشة)
-    function moveNoFar(clicks) {
+    // 🔁 حركة الهروب (يمين / يسار الشاشة)
+    function moveNoSide(clicks) {
       const padding = 20;
       const w = window.innerWidth;
       const h = window.innerHeight;
 
-      const cx = w * 0.5;
-      const cy = h * 0.5;
+      // نختار جهة: يمين أو يسار
+      const side = Math.random() > 0.5 ? "right" : "left";
 
-      let x, y, tries = 0;
-      const minDist = Math.min(w, h) * Math.min(0.75, 0.35 + clicks * 0.06);
+      let x;
+      if (side === "right") {
+        x = w * (0.65 + Math.random() * 0.3);
+      } else {
+        x = w * (0.05 + Math.random() * 0.25);
+      }
 
-      do {
-        x = padding + Math.random() * (w - padding * 2);
-        y = padding + Math.random() * (h - padding * 2);
-        tries++;
-      } while (distance(x, y, cx, cy) < minDist && tries < 50);
+      // Y عشوائي بس مو تحت Yes
+      const y = h * (0.2 + Math.random() * 0.6);
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top  = y + "px";
+      noBtn.style.left = Math.min(w - padding, Math.max(padding, x)) + "px";
+      noBtn.style.top  = Math.min(h - padding, Math.max(padding, y)) + "px";
       noBtn.style.transform = "translate(-50%, -50%)";
     }
 
-    function distance(x1, y1, x2, y2) {
-      const dx = x1 - x2;
-      const dy = y1 - y2;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    window.addEventListener("resize", () => moveNoFar(noClicks));
+    window.addEventListener("resize", () => moveNoSide(noClicks));
   }
 
   /* =========================
-     PAGE 2: HUG SPAM (5s)
+     PAGE 2 – HUG SPAM
   ========================= */
   if (hugBtn) {
     hugBtn.addEventListener("click", () => spamHearts(5000));
