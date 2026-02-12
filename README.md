@@ -1,12 +1,16 @@
 # Valentine Trap 😼💘
 
-A cute Valentine mini-site:
-- Page 1: Yes / No (No makes Yes grow until takeover)
-- Page 2: Cute cat + message for "My Baby Princesses"
+Two-page mini site:
+- Page 1: Clicking "No" makes "Yes" grow + "No" runs away
+- Page 2: Cute cat GIF + message + hug spam effect (5 seconds)
 
 ## Deploy (GitHub Pages)
 1. Create a repo
-2. Upload all files
-3. Settings → Pages
-4. Deploy from branch (main / root)
-5. Share the link 💖
+2. Upload:
+   - index.html
+   - page2.html
+   - styles.css
+   - app.js
+3. Settings → Pages → Deploy from branch
+4. Branch: main / Folder: root
+5. Open: https://USERNAME.github.io/REPO/
